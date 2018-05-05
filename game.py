@@ -1,16 +1,23 @@
-from tkinter import Tk, TRUE
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QIcon
 
 
-class Main:
+class Example(QWidget):
 
-    def __init__(self, frame):
-        self.frame = frame
-        frame.title("Guess The Word")
-        frame.resizable(width=TRUE, height=TRUE)
-        frame.geometry('{}x{}'.format(450, 450))
-        frame.configure(background="black")
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(300, 300, 300, 220)
+        self.setWindowTitle('Guess The Word')
+
+        self.show()
 
 
-app = Tk()
-my_gui = Main(app)
-app.mainloop()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
