@@ -1,11 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+from random import randint
 
 
 class Ui_Form(QtWidgets.QMainWindow):
 
+    words = []
+    wordToGuess = ''
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
+        self.loadWordbase()
         self.setupUi(self)
 
     def setupUi(self, Form):
@@ -46,6 +51,19 @@ class Ui_Form(QtWidgets.QMainWindow):
         self.pushButton_2.setText(_translate("Form", "Submit"))
         self.pushButton_3.setText(_translate("Form", "Quit"))
         self.label.setText(_translate("Form", "Word"))
+        self.pushButton_3.clicked.connect(app.quit)
+        self.pushButton.clicked.connect(self.pickWord)
+
+    def loadWordbase(self):
+        with open("wordbase.txt", "r") as file:
+            for line in file:
+                line = line.strip()
+                self.words.append(line)
+
+    def pickWord(self):
+        randomIndex = randint(0, len(self.words)-1)
+        self.wordToGuess = self.words[randomIndex]
+        self.label.setText(self.wordToGuess)
 
 
 if __name__ == '__main__':
