@@ -6,7 +6,9 @@ from random import randint
 class Ui_Form(QtWidgets.QMainWindow):
 
     words = []
-    wordToGuess = ''
+    wordToGuess = []
+    usedLetters = []
+    typed_text = []
 
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
@@ -53,6 +55,7 @@ class Ui_Form(QtWidgets.QMainWindow):
         self.label.setText(_translate("Form", "Word"))
         self.pushButton_3.clicked.connect(app.quit)
         self.pushButton.clicked.connect(self.pickWord)
+        self.pushButton_2.clicked.connect(self.guessLetter)
 
     def loadWordbase(self):
         with open("wordbase.txt", "r") as file:
@@ -63,7 +66,14 @@ class Ui_Form(QtWidgets.QMainWindow):
     def pickWord(self):
         randomIndex = randint(0, len(self.words)-1)
         self.wordToGuess = self.words[randomIndex]
-        self.label.setText(self.wordToGuess)
+        self.label.setText("*" * len(self.wordToGuess))
+        self.usedLetters = []
+
+    def guessLetter(self):
+        self.typed_text = self.lineEdit.text()
+        self.usedLetters.append(self.typed_text)
+        guessed_string = ''.join(letter if letter in self.usedLetters else '*' for letter in self.wordToGuess)
+        self.label.setText(guessed_string)
 
 
 if __name__ == '__main__':
